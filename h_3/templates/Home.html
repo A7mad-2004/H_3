@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Directory</title>
+    <style>
+       
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f9fa; 
+            color: #334155; 
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        
+        .page-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 40px;
+            letter-spacing: 0.5px;
+        }
+
+       
+        .container {
+            display: grid;
+           
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+       
+        .profile-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px; 
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: border-color 0.2s ease;
+        }
+
+       
+        .profile-card:hover {
+            border-color: #94a3b8;
+        }
+
+        .profile-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #f1f5f9;
+            margin-bottom: 15px;
+        }
+
+        
+        .student-name {
+            margin: 0 0 5px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        
+        .student-id {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 20px;
+            background-color: #f1f5f9;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+     
+        .details {
+            width: 100%;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+       
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        .detail-label {
+            color: #64748b; 
+        }
+
+        .detail-value {
+            color: #334155; 
+            font-weight: 500;
+            text-align: right;
+        }
+
+        
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px;
+            background-color: #ffffff;
+            border: 1px dashed #cbd5e1;
+            border-radius: 8px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="page-title">Student Directory</h1>
+
+    <div class="container">
+        {% for student in students %}
+            <div class="profile-card">
+                
+               
+                {% if student.photo %}
+                    <img src="{{ student.photo.url }}" class="profile-img" alt="{{ student.full_name }}">
+                {% else %}
+                  
+                    <img src="https://ui-avatars.com/api/?name={{ student.full_name }}&background=f1f5f9&color=64748b" class="profile-img" alt="No Image">
+                {% endif %}
+                
+                <h2 class="student-name">{{ student.full_name }}</h2>
+                <span class="student-id">ID: {{ student.university_id }}</span>
+
+                <div class="details">
+                    <div class="detail-row">
+                        <span class="detail-label">Age</span>
+                        <span class="detail-value">{{ student.age }} Years</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Date of Birth</span>
+                        <span class="detail-value">{{ student.date_of_birth }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Salary</span>
+                        <span class="detail-value">${{ student.salary }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Address</span>
+                        <span class="detail-value">{{ student.address }}</span>
+                    </div>
+                </div>
+
+            </div>
+        {% empty %}
+            <div class="empty-state">
+                No students found. Please add data from the Admin panel.
+            </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
